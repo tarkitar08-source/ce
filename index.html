@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anabul Mandiri - Pet Shop & Care</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col justify-between">
+
+    <script>
+        const NO_WHATSAPP = "6281234567890"; 
+    </script>
+
+    <nav class="bg-amber-500 text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="#" onclick="showPage('shop-page')" class="flex items-center gap-2 font-bold text-xl tracking-wide">
+                <i class="fa-solid fa-paw text-2xl animate-bounce"></i>
+                <span>ANABUL PETSHOP</span>
+            </a>
+            <div class="flex items-center gap-4">
+                <button onclick="showPage('shop-page')" class="hover:text-amber-100 font-medium transition-colors text-sm md:text-base">
+                    <i class="fa-solid fa-store mr-1"></i> Toko
+                </button>
+                <button onclick="openAdminAuth()" class="bg-amber-600 hover:bg-amber-700 px-4 py-1.5 rounded-full text-xs md:text-sm font-semibold shadow transition-all">
+                    <i class="fa-solid fa-user-lock mr-1"></i> Admin Panel
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow max-w-6xl mx-auto w-full px-4 py-8">
+        
+        <section id="shop-page" class="space-y-6">
+            <div class="bg-gradient-to-r from-amber-400 to-orange-500 rounded-2xl p-6 md:p-10 text-white shadow-lg relative overflow-hidden flex flex-col justify-center min-h-[180px]">
+                <h1 class="text-2xl md:text-4xl font-extrabold mb-2 z-10">Penuhi Kebutuhan <br>Hewan Kesayangan Anda</h1>
+                <p class="text-amber-50 text-xs md:text-sm max-w-md z-10">Produk makanan, vitamin, dan aksesoris terbaik untuk anabul kesayangan dengan pemesanan langsung cepat via WhatsApp.</p>
+                <i class="fa-solid fa-cat absolute right-6 bottom-[-20px] text-8xl md:text-9xl text-white/10 pointer-events-none"></i>
+            </div>
+
+            <div>
+                <h2 class="text-xl md:text-2xl font-bold text-slate-800 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-boxes-stacked text-amber-500"></i> Katalog Produk
+                </h2>
+                <div id="product-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    </div>
+            </div>
+        </section>
+
+        <section id="auth-page" class="hidden max-w-md mx-auto my-12 bg-white p-6 rounded-2xl shadow-xl border border-slate-100 text-center space-y-4">
+            <div class="w-16 h-16 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center text-2xl mx-auto shadow-inner">
+                <i class="fa-solid fa-lock"></i>
+            </div>
+            <div>
+                <h2 class="text-xl font-bold text-slate-800">Verifikasi Admin</h2>
+                <p class="text-xs text-slate-400 mt-1">Masukkan password khusus pemilik pet shop untuk masuk.</p>
+            </div>
+            <div class="space-y-3">
+                <input type="password" id="admin-password" placeholder="Masukkan Password Pemilik..." class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-amber-500">
+                <p id="auth-error" class="text-xs text-rose-500 hidden font-medium">Password salah! Silakan coba lagi.</p>
+                <div class="flex gap-2">
+                    <button onclick="showPage('shop-page')" class="w-1/2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-medium py-2.5 rounded-xl text-sm transition-colors">Batal</button>
+                    <button onclick="verifyAdminPassword()" class="w-1/2 bg-amber-500 hover:bg-amber-600 text-white font-medium py-2.5 rounded-xl text-sm shadow shadow-amber-500/20 transition-all">Masuk</button>
+                </div>
+            </div>
+            <p class="text-[10px] text-slate-400">Petunjuk simulasi password bawaan: <span class="font-mono bg-slate-100 px-1 py-0.5 rounded text-amber-600">petshop123</span></p>
+        </section>
+
+        <section id="admin-page" class="hidden space-y-6">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                <div>
+                    <h2 class="text-xl md:text-2xl font-bold text-slate-800"><i class="fa-solid fa-gears text-amber-500 mr-1"></i> Dashboard Pemilik</h2>
+                    <p class="text-xs text-slate-400">Tambah, pantau, dan hapus stok katalog jualan Anda.</p>
+                </div>
+                <button onclick="logoutAdmin()" class="bg-rose-500 hover:bg-rose-600 text-white text-xs font-semibold px-4 py-2 rounded-xl shadow transition-all">
+                    <i class="fa-solid fa-right-from-bracket mr-1"></i> Keluar Panel
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm h-fit space-y-4">
+                    <h3 class="font-bold text-slate-700 border-b border-slate-100 pb-2 flex items-center gap-2 text-sm md:text-base">
+                        <i class="fa-solid fa-plus-circle text-emerald-500"></i> Tambah Produk Baru
+                    </h3>
+                    <div class="space-y-3 text-xs md:text-sm">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 mb-1">Nama Produk *</label>
+                            <input type="text" id="prod-name" placeholder="Contoh: Makanan Kucing Me-O 1kg" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 focus:outline-none focus:border-amber-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 mb-1">Harga (Rupiah) *</label>
+                            <input type="number" id="prod-price" placeholder="Contoh: 45000" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 focus:outline-none focus:border-amber-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 mb-1">Kategori *</label>
+                            <select id="prod-category" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 focus:outline-none focus:border-amber-500">
+                                <option value="Makanan">Makanan</option>
+                                <option value="Vitamin/Obat">Vitamin/Obat</option>
+                                <option value="Aksesoris">Aksesoris</option>
+                                <option value="Lain-lain">Lain-lain</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 mb-1">Link URL Foto Produk *</label>
+                            <input type="text" id="prod-img" placeholder="https://link-gambar.com/foto.jpg" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 focus:outline-none focus:border-amber-500">
+                            <span class="text-[10px] text-slate-400 block mt-1">Gunakan link url gambar publik internet, atau dari hosting gambar gratis seperti ImgBB/Postimages.</span>
+                        </div>
+                        <button onclick="addNewProduct()" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-2.5 rounded-xl shadow shadow-emerald-500/20 transition-all mt-2">
+                            Simpan Ke Toko
+                        </button>
+                    </div>
+                </div>
+
+                <div class="md:col-span-2 bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <h3 class="font-bold text-slate-700 border-b border-slate-100 pb-2 text-sm md:text-base">
+                        <i class="fa-solid fa-list-check text-amber-500 mr-1"></i> Atur Daftar Inventori
+                    </h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs md:text-sm">
+                            <thead class="bg-slate-100 text-slate-600 uppercase text-[10px] tracking-wider">
+                                <tr>
+                                    <th class="p-3 rounded-l-lg">Produk</th>
+                                    <th class="p-3">Kategori</th>
+                                    <th class="p-3">Harga</th>
+                                    <th class="p-3 text-center rounded-r-lg">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-table-body" class="divide-y divide-slate-100">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 text-center py-4 text-xs border-t border-slate-800">
+        <div class="max-w-6xl mx-auto px-4">
+            <p>&copy; 2026 Anabul Petshop. All Rights Reserved. Terbuka di Seluruh Perangkat Smartphone & PC.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Data Produk Default Awal (jika local storage kosong)
+        const defaultProducts = [
+            { id: 1, name: "Whiskas Dry Cat Food 1.2kg", price: 65000, category: "Makanan", img: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxAQDxUQEBIWEBAVEBUQEBAQEBcXGBAWFRUXFhUYFRUYHSggGBolHhcYIjEiJSkrLjAuGB8zODMsNygvLi0BCgoKDg0OFxAQGislHSYtKy0tKy4tLS0tLS0vLS0rLy0tLi8tLS0tLS0tLS0tLS0tKy0rLy0tLystLS0tLS0tLf/AABEIALcBEwMBIgACEQEDEQH/xAAbAAACAgMBAAAAAAAAAAAAAAAAAQQFAgMGB//EAD4QAAEEAAQEAwYEBAUDBQAAAAEAAgMRBBIhMQUTQVEiYXEGFDKBkaFCscHwI1LR4RUzU2KScrLxBxYkNIL/xAAZAQACAwEAAAAAAAAAAAAAAAAAAQIDBAX/xAAsEQACAgIBAwIFAwUAAAAAAAAAAQIRAyEEEjFBE1EyYYGRoRUi0RRx4fDx/9oADAMBAAIRAxEAPwD0JNCayncEhNCAEhNCAEhNCAEhNCAMUlkkgYklkkkAkk0ikMSSaCgZihNJIYkIQmMEkIQAIQhADQhCABJNJACKwKzKxKAMUislikMSEIQMsUITUygEIQgBJoQgAQmkgBITSQAkk0kDBJNMMJ2BPoEgujFYlbOS/wDlP/ErB0bhu0j5FKmJSi/JikUi5YkpFg7StYlyWZFjoztC15kZkDozTWvMnaAozQsbTQIaaxTTAaSEIARSKaRQBikskkhmNITQgCwTQhTKQQmkgQITQgBJJpIGCSyaCTQ1KlNhawW42fsP6pxi2U5c8ca2R44HO2FDuVJZhGj4jf2UHFcZaDTPEVXScRcT4nV5WrFGKOdk5eSXbSOhzxt7D0WQxTfVchxLifJGY1lFA+V6D81DwvtLzgaDsmoDgDVjfXqqpcqCjaIrj5JS/cd43EtK2CRq8nHHXRulAkdERM1okdmpoIbV30t2oXW4r2ldGwU1r3EhoAsZnbUPU6BEeVGt6CXFmu2zrHRRv3o/9QUTEcIB1bp6aj6KBw3jkUpEZcGThoL4swJaSO43VxHLWoP3V/7ZKyEMuTG9No5/F4SSPUi2/wAw/XsoZlXZFwd8Qo91ScW4Ldui0dvl6O9OxVM8XmJ0uPz09ZPv/JT81MSqA6QgkHQg0QeiBOqLOposRIsg9V7ZlsbKmKieHLIOURsi2temRokWi1rDkwUxUZ2hY2naAGhK0IAEkysbQA0JWhAyyQhCmZwQhCABCEIASGtJNDdBUiOmMLzuR9AnFWyrNlWOFillZAwkn1PfyXK8R4u6UnWmgE15Dqe391G47xXmONmmD9FV4WCSZxtxjjfH4HMolwFPPi2bsNCNVHNl6Vo5uPG8krkb4+MsZFzpQ9kRALKbZd5kDWuynQMa5/OykSMBAadSAfxODd+voq2XgubCxRNcWBmjmvGZsrQ7c0RlzUdRWp7b7H8RbJC2fBW515BFGQS143Y4Dpoflr5rBOTnv/hvhCMFSNONc7GRmGPJbpMkmWU+FoJN7aEtFgfs7GQe4OA+OCyYmMY5zmuq/Fp8PX1WqIPb7vGAIXPljxOJdpWYlodG2viIsMHSgNVtdxXLjH4SahnZmjfdDwCwOw0cfU35BR+SJ/MMDhcU+FxnpzXvzGJz7LIyfgOXS600KZ4nhi/ksjDJraYAGNBDj4SGnot3Dp3e6/wh4s5lBLb5kbjo6rFjStOmU9VExGJwzY2Z3sZODmLQPG2Uk6tBs2enkK1CFtgacfjy3DlpeOYJHHNGCHWXUA5pG/S99iFZQcYIdHCZG4h7t2A6xCtXOJ7Vrdfoo2BgGFAnk/zJngS2KsuOVmRp+Fvwmu2+y0vimw8xmYOdhy5xyuPjiLqBLP5mmj2+alenFdiHQr6qOt9mOLkyywS2yiHQh/420A4tPUX06Lq2P6HZeT4vGHEhr8KRI5rXSAtcA7xVlDCdM2h0JF0ux9k+MmSKNk3hlLdAeumo8jvv2W/j5V0qL7nPz4mpNrsTPaPhHMbzIx/EA6fjHb17LjOYvS3ygNOb5Lk8SGMc98LGOe5wcQ/UAdco+pVmTH1O0auJynCLjLa8FG2QrcyVbsVOyRpLSOYNCyqN1tXTt8lWRTakHQ9j+9lTKDidHDyY5Pky1jkW9kirGSKRHIomgsWvW1rlBZItzZEColApgrQHrIOTFRutO1rDkwUxGaRStCBBSEIQMtEIQpmYEIQgBITKSBjiZmcB3Ovp1Vd7VY3K3INLVvgxqT2H5lcd7Tz3K6zoAp9onN5curIo+xz2HxUTsUGTkZMpLQ74XOsUHX039SAprmNbKZrIlfcMcIfQkcTWYg/QHzO9BUfBcbhw6WWey9rwQOU52QXTNK61Y0XR+0Jx8+HqFsfNcSG5tDENSH5rIBHYdVz83x19DRiVRIfCTih/Dlla+FkTnSnKSWkDRsbzVam9QdGnyrCVro2sZHHDhpgGklpLXSMIIIMYbWfK3uel9lOwEEvOY57tNXThjXFkzm7eKhl3vsSPMhRXxsE75saWtlkeGQjMfA0CxThRDtx8lXey2jLiMDYwJmQTukdG0Cd0gPJDw13+WHAFwu6A6UonEPZ92LPvDZxLeVjmmMBr2xup2liiRen5BW82IlHKw5c2XmQ1nJqsoLw626GmijQF6a9FSOx4ijbh8M33jFjEF8sRoFxYQZHEE0GEaDptaIt+P9/gTryXE3EGBmd1thAb7vI01mGUZmkA5gRXUVVLRw+OLEye+BjXgAiOxmc8ssWM/wANEnWr137xZYDiJ3QD+AHRcxgLPBHJY0DRQcdy6j0Cne9e6vjwuHacRlAbPQH8NtfE46AOJ1rrZ0Ua9u47KzG4WGTkOh/+3I8kAzvGUUXOYbOhAFEBSOIcSkjZyZ4iHublY2OiNANGm9KsbrLC8Mjc6blthDw7PeQOlAOtuFihYIBB6HqFXRsZJiBhs7jispdzXuLhlHiP8O62Gwrve6nF33IvRFhw8kTjKwkOLM80Hw53V4nRO7+Xc6FdFw54dGPE5jxUhsgyXmsEOGhGm+v1tacJg4X+DEsD3F5yuDnNa0NFgCiKOjid9yLIUPj+MfFK4tjcYXMY5ga009wc0gMLe4O3kU23J67kaSWzsnYx+Jw5Y+yS45Q12U5a3ea0Fh2ypOWzCjK0ku3NuJPXqd1q4BjDI95jzNDyI3Mc51seWgig7YHQepWrHcOmoySuMWpAblN6ddj+S6OGVxRjklF0a8a0SBrtQ5oLi69SfPuLrRQzjKDsxBf4WtOulWTX1/Nb8FghIwlz5Bp+MgHQns0UFQ8TwvKcS1xc34XZtSNvxVqNT8+6uBM6TB4wSCxvZBHzU1ki5SCURNa4eLM8NGtbkfXT810DMU12oIIsgOHqKsfvUrPLE+6Olh5aepFiyZbmyqtJIJ8jR+S2MlVRtTT7Fo2RbWvVayVSI5EDJzXLYHKIx62temKiQCna1ByeZAjZaa15kkwLtCEKZlEhNCAEhCEAb8J+L5fqvOPblzmtlr4qoepOi9Gwp8RHdp+2v6Lz/wD9SQ6EGVosNcJCB1AOo+hcfkpS+DRzs6rNsouFSQMexz7xJmc1joy3KY3hungJ8zroui91OINBvuQjOYPAzPe3ZwDiaboQNiaPlSpeDcSw+Lhfnf8AwomCZxBpzTdso7g2Omu3dWz5ziY44JGETywFxaCHUAA23nTLd7etLmTuzYqJkOPjllfBDLpCwZ8osknpewqut/EoXDXtEkzxRMYZme+i8NeaIBA0bTSdBZoegx4YxsGHEbZBLiYs0XLY3Vzvi8d6katJOndYOJmcJMKQI4XAOZQLsTK/wObLlPhADjre5B2AuNd67DJ+KeXTRPjY7dxzO8Ia0xvBJB8V6jwgdOir+GezzGufio75ro3x5nnWW3NPi6NFsoULHcrLjWMGIZJDBzHzB0edl5eVb6Dg++4NEXqOiy4riZ8Nh800t+EBrYYhfhFGy6830G6FdA9kHEMjbM2XFPLMMWsfHIyWRuR4u8zhWTfLZ9NCpM88XKdPg3NZEC4ufE0ZcS8iso2zGxq/yoWdoJaIuFNdK+S5IOYWuyEgvGY/g7nt+qq8LIMVhWQYeGQRDMfeJHuys18bgAaJvoBuTtqVZ02vr9CN7J3s7xLPK6KOJ73l+Y4mMtAjG3isjKAbGUXdHfVWGKEbuYzDtLsUMrnYgta0xuykNe4jppWVumpFCypcz4mtrDvaBGwDNHTsrGiqcBuPXa70XIcO4g2doia4nFuxbnXC7KeVm/itLrAy8sGmk6kN9UJdTtaB60ySwOmeI8QX+7kPbzYGu+NtNtzmiwCLoCgdd9F0UEmJbeGLGymMMa0ufTn2DVtA/fbRV2ChhwMgbEbw/O5zonnxh1U0NuqbmDd9O3RdazAMAbLZEznGSR/U5vwb7DQfLzVsMfqv5Fcp9K+ZVwwHCuEs7Guk6RQuNN1Dm+LyINadVYScUE7M4c4sJILHEgsOxGUdiKoefdb5sJzNTuLHr3uxr1XP8WwT8M4yx0Qbc6PYOq9R2K6EYKKpGVu3bKDixxcbjI3WP01Hy9PyUOPEtMbnPqi12a63qhY+Z/ZXT+/c6Osps6Za67dOl39ly+P4F4i4kti5gBA2bubJ7aemikBp4ZAZo2Ci7KDR+VWOpA+1rs+CcOa1jWuNPO4OugIseWv/AHeSpouHckZ4yXkbtdoRpuB2RhJZw4yAkk116WDp22Hy+qBUdTLhOgBtx12NuAB1Hy7rDFcMcAXNo1vXXfa1J4VjHPJBZoWgix5Ea9jrutfE55neBgc2zZI0Iuv0v7pOCZOGWcOzMBw54IBvXQaden2SMLmkt3Iq681ecFwkmQiQ5rI1I/DruO/dQeK8McZjk8Odpa5wGgI1Hz0+ig8KL482fkhMl8+33W9sgugb7a/RZs9mWVqdwToe4rrsNU3ezrHAanw3dGv3/dR9EtXPflA2VZCRb2cMaDmBN1r4joQADp8iifChtiwNND2OpP5FL0WWLnR8o1Z0KsxGOa1xbm2NbDX7pJelIn/WYztUIQgQIQhAAhCEANrqII6G1We2nCRicM9o1JYcvzH7H1Vmt8BzDIf/AM/qFOPsZOVj6kpLujwLiLmNkidTjE/LHLCywSYycrSB1BFeVLrPZ0vgldiphHHHOMpZGXOc0tdQs/agDuD0W7229l4sPI7GiMlhcHy5BZYRoXUNaI3rzPcqBHxDD8QkZAxz2ObH/CtoaxxN5w6xego/IrFmi1r7seKakrL7gWBkbLiHSiNhmka8uaf4gYGhuR79O16XWY69UsQC6R3IDY2wRPMZMdMzPBYCBoKovJryWGPlkgkijEIxb3ABrnuDRoKcQKNaWbPkpM+DDLdA4RNc652vaCG6UTlBHTbLW3VZW92y6iHxDhrMLJJNETzS3K4SuLmubZLRr8OutjY3pqtOL4gJH4SWao2nMS1+xJZoAdt9RdXQq1l7RcPhxGGc7mmQ5Q6Mtnd46I0pp12q/muXw8+PdMxj3ifDwzxvLnNZeoprTp8QLjrfTVWQSktsi3RP43xWKOJ/PbJT8QIILj1hgMbA4sbsSKeLOpvtV2fC2jkNiwxjLY48rHtcQHNblsPbRIdZBPn2tT+JQtkc57wHyQDWIx0AHhzc2ut9iDpqqL2i4uYcMzl5G4h2IzZM2YARuBaHaA0RRN90KpJRX+B7Ttm7BYaLDyZ8RDc01MzRva6MUbFXTr13LdNvWYZRhee57REHOztLNdcpHioaHRvSvNR+ETNxUb3vzPxJZlIDTUQds2PoNRe/QWUcdjxkmGkc5rBO2NrnhgGVxomQBzjQNDbWrG6Ht0xdloosRgHNha3GMMh1fA+CxyXuFhriNXDQeRra6vu8HwuURRZ3kl0TC8jQhxFnUFctxLGEYWN0oZkNNY2Il5DmjMA4kChoToCTXmui4Dxo4jCB8THy8pojcWtv4RQ16nTXqtvGd3Zmy6JOTEQG83Nb1zABw9CNPko3F3mUbEAaVWovax0GpUvD8TbKzqTeUiqIO1EdFF4niA3LRv8Anodb0v6ils8FNFJO4MArxG67+X6FWcMTHRl7q210oa9L7Wfv5qvwY5sjtLNhpN/W78j91nxyUtDIgf8AMdqAKIHntX90AzoOEYKCRoka0bVlNkUegB/e/dbD7Nt3YcnQVqPojg7g1gY2tNBXl2/srmTEtjZmJ2Q0F0VMWFkhHiGl6uHz/p9wp0EzStmC4jHMKaQfLuOui04zAkEOj00+H+ig7RONPTLONwIros3s66X0VBDjHM+Kx016Uf7hW2HxgPX+6FNMJ4Wjc6OxqKK1wwZQPIfVSmSArJTsqpkJ8WUaGv10XFe0vE3s0AJbeVwqi3T/AM/RdxjvgP2rouE4x4j4t6rXSx59iEDRyjmOcbvfuQmuiwWE/hjTqdnDuUIodnoqEJrMdUEIQgAQhNAmCEJpiJOUStyuAzVrezv7rgeLexb8PP7xg9BrmiIPhvcsAIvS/D5/Jdux1GwpzXBw11/MKTipqmYcmNwl1Q+x5O7GzyzxglkRieXBzg459C0sLdCw+K9zttor6PAieI87TMSMjHmm61dirOg9F0fGfZjD4oeNvisEPjcWPaRtqNVy0fsTiYJZJGYmScPAqJ78lZb6t0J26DbqseTiyStE48mPaWjmPZ/CzshxeHLwIIp8oe7R7nFoLwSNC3UG+l16TcLhQ/Dtw0zTG6VzpZCDXMa0acvq27YNaNA6K1wfCJRzRioCGSPzhkYLheWiXFu5+qrpG4wzSMDLaHE+9PZkMgIBy1V6aDQVoqJKdu0XxlGtMtIZhK58/ia9jPd3kVUhNHN51oa7nque4ThZubNI4CYjK0NBDXcvcFrTodQQdd2lS8FgpRDULphI5+d7XQuLC51AjVttFACwpfC+CY5mJcGw3C5oJme45nOB/lcfCNT36eiI45bpBKcVVspOL4kYbD8zCW3FyWXRxiyCLysMYG43Ol+avMfjC7BublyyGEMMQs5S+mnXq0XvvuuhwHs08F8kj2iR+jntYC7KLytuthZ3vdTMPw3B4VxeAHS3Ze/xPvy6N+VK+PHnL4tFLzxuo7fyOQ9nPYqQlucuhw7QC1pNuc4/Fka68orSz50F0/FeJR4SIxwNGYA01vc6kkndxO5PzS4hxV7wQ3wt+5+a5jiWIDGl5Ow3K0rph8Pf3J4+LKf7sn2NfC+CyDNNKSM5zOYH7knrW+628TweV2YFx7WT32/NVP8A7jmlaGhgYK1q9e2nRb/f5XinaiqCs9RDXFmW/CcOz4mir1o+fr3/AE+SjjhJfiHPe7YkRtvoO/UqPg8S9ldQOlnX7q5w80ZLTdEd9AbP3/spLImRnxZxMuDnK50d5stZjXU6gb/ulu43hHzNDWkAXZN1fZbsLhgCS06E5vXr8lvZJrqK1LQTt67qdmbpohcF4dydSdTVj9ldFGQRSr2A3el+lLQ3jEYkyXrfTp80ESxxOFa4VWvT1/YVVPg3xkOZ4hVG+nmrqGQHUa2s8ig42ThkcSmix5aQCK9R5WrKLFg6koxeEa5tEdbHkq7H8OcYhkJBsad63H77oSaJOUZGPFeKsDS4/CPSyewteeY7ilykgeE9KsfOle8U4VLGSSbGXtpsDp66rksVhy46iq0Jqm+Xr1R1A4atHWcGnzwMdQ1zdOziO6a3+zuGZ7qzUH4vw1+NyamU0duhCFnOsCEIQIE0ISECaSaYGQWyGTKfL8lrCaadEJK9E5IuPr6qLHIW+Y7f0W9sgO306q1Ssyzx0Jz/APb9FrdMP5T9Vm4LS8JkFji/Bi7FgbN+60yY53QAIeFoeEm2Wxww9jTPiHu3ca7BQZQpUqrsViANB4ndm7/Pt81TJm3FD2RHxcoaCSaAFklcrjA7Eu6iIHQfznufJdBJgHym5NujBt8+6lR8PA6Ks1qHuUGH4fQ2UxmEVy3ChZCBBPRWMwq3swyniFZiNAWjThnFm23Zbc1myLOmv1tZiNZBikpNFE8UJd0b2OzNN9um/wA1z7ODcqfmSP8AjNjxagnYVudvNXjBX7/JR+K4Xmxmh4xse316lXQnZzs3HcHa7EjDyR5g1smY9rFnzpWTZQKAK86wOeOUutwOlkUQb7jv8wux4eHubmcD8/08lYZWi83GiHMFUo0bq+umq3GbTcfVFECu4yWhvi1vSu64jEMa5zjp2HoNQfquj9pZX6FvTUjpXdcHxGZzXaeVC9/p9PUKDVlsJuPY7zgDawzPD1f5fjd2Qn7KTF2DjOv4/tI4ITSE8m+x0aEIVJ0gQhNAgQhJADQkhAGdprC0wUCM7QsbTTFRlnd3+uqxdIew+qRKxKdsXQvYxe49vv8A2Wh7XHsPv/RbysCk2yyMURH4a9yT5bfksBhmjYAegUwrAqDRcpNEflLExqSViQkTUiPkSyLeQlSB2acieVbKRSQWa8qeVZ0ikBZhSYTpFIE9lPicA1shef8ALdQcB+H17j/wuigZTRl1FeZ27KIQtjJCLI3rQfmQr4ZPDMOfjeYkXjWLdGAdB3sWfkAqbh/GzK+sxoHqcv1orpcVG18ZAq67DQHr9FwjfBPlJO5IAGY+V318hsrTFRb8ZlPQ9L1LjW/l+RXM4rDNq7yu7HQfI9Pn3XT4pgyZgLNUKPl5a/ZcziJmuNOBv/a4fcVqgVHbeyGHd7lHmbrcl0R/qP7IVj7Hxf8AwYtb+Pt/qPQgrZOQhCznYBNJNBESE0kACEJJEhotJCYjK0WsbRaAoytIlY2kSgKGSsCUyViSkTSEViUysUiQikU0kiSEkmhAxJJoQAkIQgY44y4hrRZOwClf4VP/ACH/AJN/qtvAf88f9JVlxXFysmhbE3PmEmZhcGh2VoI8RBqvJX4cPqa/v+NmDlcuWGVJFR/hU/8AIf8Ak3+qX+FT/wCmf+Tf6qaz2j5hqKJ5aY2kvyuOQvj5jbppbQsWS4ehGqj4bjUrAM1zOdDh3MDtPE6KR8htjCTYjugCb2C0/p86dmT9Vfsvyahwuf8A0z2+Jv8AVc1xX2PxReXRxF1/72fq5dXivazllpdCRCYZJHSF51fGJM0UeVha538I1mc2wbF0QorfaLFyvg5eHyPdI8GKSRzGTN5OdpEjos2nk3etSDaiuPKOmVz5inul+Sv4fwLGGItliyHUANcy/rei5binsPxB0tswznNvfnRAfTNa7yP2zMjWSRQAxF2FY8yT5HtdismXKwMOZoDxZsag1sSrP2a4hiJ2ymdkbMk8kTeVI53wPc0ggsbtQp34rum7JyxyStlazJukQfZXhssGDjilZke3PmaS01b3Eat02IQuik3QoDs51NCFlOyCE0JkWCSEIAEkIQSBJCEgEi0IQMVpIQgYkUUIQFiyFLlnsmhFC6mLlO7fdHJd2+4QhFC9RhyHdvuEch3b7hCE+kPVYe7v7fcI92f2+4QhHSiPrSD3V/b7j+qPdX/y/cf1QhHSg9aRO4Lh3NmsihlPUK+dE0uDiAXNvKSNRe9eqSFfj0tHP5Muuds0N4bAC0iJlsaGMOQW1oFAA1oKJ+pVTP7Mh2eMS5cO9zXOj5LS9obVMZL+Fo2GhLQaBGlCFcss15MrhF+C2/w3D52ycmPmMbkZJy25mN2ytdVganQd0sLwvDxVyoY46cXjlxNbTnCiRQ3I0vshCg5Ml0owPB8JbHe7w5owGxHksuMNNtDDXhAOorZSIcLEx73sY1r5KMj2sAdJl0bnI1dV9U0I6mHSiqxvHoWSOYbJBo0PJCELO8js6keHjcU9n//Z" },
+            { id: 2, name: "Kalung Kucing Lonceng Karakter", price: 15000, category: "Aksesoris", img: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=400&q=80" },
+            { id: 3, name: "Minyak Ikan Vitamin Bulu Lebat", price: 25000, category: "Vitamin/Obat", img: "https://images.unsplash.com/photo-1608454367599-c1139589d903?w=400&q=80" },
+            { id: 4, name: "Royal Canin Puppy Dog 800g", price: 110000, category: "Makanan", img: "https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=400&q=80" }
+        ];
+
+        // Ambil data dari localStorage atau pasang default data
+        let products = JSON.parse(localStorage.getItem('petshop_products')) || defaultProducts;
+
+        // Fungsi berpindah halaman SPA (Single Page Application)
+        function showPage(pageId) {
+            document.getElementById('shop-page').classList.add('hidden');
+            document.getElementById('auth-page').classList.add('hidden');
+            document.getElementById('admin-page').classList.add('hidden');
+
+            document.getElementById(pageId).classList.remove('hidden');
+            window.scrollTo(0,0);
+        }
+
+        // Buka form password admin
+        function openAdminAuth() {
+            document.getElementById('admin-password').value = "";
+            document.getElementById('auth-error').classList.add('hidden');
+            showPage('auth-page');
+        }
+
+        // Verifikasi password (Bisa diubah sesuai keinginan)
+        function verifyAdminPassword() {
+            const inputPass = document.getElementById('admin-password').value;
+            if (inputPass === "petshop123") {
+                showPage('admin-page');
+                renderAdminTable();
+            } else {
+                document.getElementById('auth-error').classList.remove('hidden');
+            }
+        }
+
+        function logoutAdmin() {
+            showPage('shop-page');
+        }
+
+        // Format angka ke format mata uang Rupiah
+        function formatRupiah(number) {
+            return "Rp " + number.toLocaleString('id-ID');
+        }
+
+        // Render Halaman Katalog Toko (Untuk Pembeli)
+        function renderShop() {
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = "";
+
+            if(products.length === 0) {
+                grid.innerHTML = `<div class="col-span-full text-center py-12 text-slate-400 text-sm">Belum ada produk terpasang di toko.</div>`;
+                return;
+            }
+
+            products.forEach(p => {
+                grid.innerHTML += `
+                    <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+                        <div class="relative bg-slate-100 aspect-square w-full">
+                            <img src="${p.img}" alt="${p.name}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x400?text=No+Image'">
+                            <span class="absolute top-2 left-2 bg-amber-500 text-white font-bold text-[9px] px-2 py-0.5 rounded-full uppercase tracking-wider">${p.category}</span>
+                        </div>
+                        <div class="p-3 flex-grow flex flex-col justify-between space-y-2">
+                            <div>
+                                <h3 class="font-semibold text-slate-800 text-xs md:text-sm line-clamp-2 min-h-[32px] md:min-h-[40px]">${p.name}</h3>
+                                <p class="text-amber-600 font-bold text-sm md:text-base mt-1">${formatRupiah(p.price)}</p>
+                            </div>
+                            
+                            <div class="space-y-2 pt-1 border-t border-slate-100">
+                                <div class="flex items-center justify-between bg-slate-50 border border-slate-200 rounded-lg p-1">
+                                    <button onclick="changeQty(${p.id}, -1)" class="w-6 h-6 text-xs bg-slate-200 hover:bg-slate-300 rounded text-slate-700 font-bold flex items-center justify-center">-</button>
+                                    <span id="qty-${p.id}" class="text-xs md:text-sm font-bold text-slate-700 px-2">1</span>
+                                    <button onclick="changeQty(${p.id}, 1)" class="w-6 h-6 text-xs bg-slate-200 hover:bg-slate-300 rounded text-slate-700 font-bold flex items-center justify-center">+</button>
+                                </div>
+                                <button onclick="checkoutToWhatsApp(${p.id})" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs py-2 rounded-xl flex items-center justify-center gap-1.5 shadow-sm transition-colors">
+                                    <i class="fa-brands fa-whatsapp text-sm"></i> Beli Sekarang
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // Mengatur naik turunnya angka jumlah pesanan di kartu produk
+        function changeQty(productId, amount) {
+            const qtyLabel = document.getElementById(`qty-${productId}`);
+            let currentQty = parseInt(qtyLabel.innerText);
+            currentQty += amount;
+            if (currentQty < 1) currentQty = 1; // Minimal beli 1 item
+            qtyLabel.innerText = currentQty;
+        }
+
+        // Melakukan checkout langsung diarahkan ke Link API WhatsApp
+        function checkoutToWhatsApp(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const qty = document.getElementById(`qty-${productId}`).innerText;
+            const totalPrice = product.price * parseInt(qty);
+
+            // Membuat draf text pesan WhatsApp otomatis
+            const textMessage = `Halo Anabul Petshop, saya ingin memesan produk berikut:\n\n` +
+                                `🐾 *Nama Produk:* ${product.name}\n` +
+                                `📦 *Jumlah:* ${qty} pcs\n` +
+                                `💰 *Total Harga:* ${formatRupiah(totalPrice)}\n\n` +
+                                `Mohon diinformasikan ketersediaan stok beserta ongkos kirimnya ya. Terima kasih!`;
+
+            // Encoding teks pesan agar valid dimasukkan ke URL link
+            const urlEncodedMessage = encodeURIComponent(textMessage);
+            const waUrl = `https://wa.me/${NO_WHATSAPP}?text=${urlEncodedMessage}`;
+
+            // Buka tab WhatsApp baru otomatis
+            window.open(waUrl, '_blank');
+        }
+
+        // Render Daftar Tabel Inventori di Dashboard Admin
+        function renderAdminTable() {
+            const tbody = document.getElementById('admin-table-body');
+            tbody.innerHTML = "";
+
+            if (products.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400 text-xs">Belum ada koleksi data produk.</td></tr>`;
+                return;
+            }
+
+            products.forEach((p) => {
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-50/80 transition-colors">
+                        <td class="p-3 flex items-center gap-2">
+                            <img src="${p.img}" class="w-8 h-8 rounded bg-slate-100 object-cover" onerror="this.src='https://placehold.co/100x100?text=Err'">
+                            <span class="font-medium text-slate-800 line-clamp-1">${p.name}</span>
+                        </td>
+                        <td class="p-3 text-slate-500">${p.category}</td>
+                        <td class="p-3 font-semibold text-amber-600">${formatRupiah(p.price)}</td>
+                        <td class="p-3 text-center">
+                            <button onclick="deleteProduct(${p.id})" class="text-rose-500 hover:text-rose-700 bg-rose-50 hover:bg-rose-100 w-8 h-8 rounded-lg transition-colors" title="Hapus Produk">
+                                <i class="fa-solid fa-trash-can text-xs"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        // Fungsi Aksi Tambah Produk Baru oleh Pemilik Toko
+        function addNewProduct() {
+            const name = document.getElementById('prod-name').value.trim();
+            const price = parseInt(document.getElementById('prod-price').value);
+            const category = document.getElementById('prod-category').value;
+            let img = document.getElementById('prod-img').value.trim();
+
+            if (!name || !price || !img) {
+                alert("Harap isi seluruh formulir produk yang bertanda bintang (*)");
+                return;
+            }
+
+            // Template ID unik berbasis timestamp waktu
+            const newId = Date.now();
+            
+            const newProduct = { id: newId, name: name, price: price, category: category, img: img };
+            
+            products.push(newProduct);
+            saveToStorage();
+
+            // Reset Form Input ke semula
+            document.getElementById('prod-name').value = "";
+            document.getElementById('prod-price').value = "";
+            document.getElementById('prod-img').value = "";
+
+            alert("Produk baru berhasil ditambahkan!");
+            renderAdminTable();
+            renderShop();
+        }
+
+        // Fungsi Aksi Hapus Produk dari Dashboard Admin
+        function deleteProduct(id) {
+            if(confirm("Apakah Anda yakin ingin menghapus produk ini dari katalog?")) {
+                products = products.filter(p => p.id !== id);
+                saveToStorage();
+                renderAdminTable();
+                renderShop();
+            }
+        }
+
+        // Simpan perubahan ke penyimpanan local storage browser
+        function saveToStorage() {
+            localStorage.setItem('petshop_products', JSON.stringify(products));
+        }
+
+        // Jalankan render awal saat website dibuka pertama kali
+        renderShop();
+    </script>
+</body>
+</html>
